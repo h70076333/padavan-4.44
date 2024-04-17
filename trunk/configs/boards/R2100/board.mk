@@ -5,5 +5,5 @@
 ##################################################################
 
 CFLAGS += -DBOARD_R2100
-BOARD_NUM_USB_PORTS=0
-CONFIG_BOARD_RAM_SIZE=128
+BOARD_NUM_USB_PORTS=1
+CONFIG_BOARD_RAM_SIZE=512
