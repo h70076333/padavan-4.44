@@ -16,24 +16,31 @@
 
 	leds {
 		compatible = "gpio-leds";
-
-		status-red {
-			label = "red:status";
-			gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
+    
+		wlan5g {
+			label = "sw5g";
+			gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "phy1radio";
 		};
 
-		status-green {
-			label = "green:status";
-			gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
+		wlan2g {
+			label = "sw2g";
+			gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "phy0radio";
 		};
 
-		led_blue: status-blue {
-			label = "blue:status";
+		wan {
+			label = "wan";
 			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
 		};
 
+		usb {
+			label = "usb";
+			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "usbport";
+		};
 	};
-
+	
 	gpio-keys-polled {
 		compatible = "gpio-keys-polled";
 		#address-cells = <1>;
@@ -42,25 +49,14 @@
 
 		reset {
 			label = "reset";
-			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
-		
+
 		wps {
 			label = "wps";
-			gpios = <&gpio0 18 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 7 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_WPS_BUTTON>;
-		};
-	};
-	
-	gpio_export {
-		compatible = "gpio-export";
-		#size-cells = <0>;
-
-		usb2power {
-			gpio-export,name = "usb2power";
-			gpio-export,output = <1>;
-			gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
 		};
 
 		usb3power {
