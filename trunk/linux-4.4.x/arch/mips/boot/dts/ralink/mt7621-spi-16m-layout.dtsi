@@ -26,12 +26,12 @@
 
 		partition@50000 {
 			label = "firmware";
-			reg = <0x50000 0x9b0000 >;
+			reg = <0x50000 0xc10000 >;
 		};
 
 		partition@f80000 {
 			label = "Storage";
-			reg = <0x9a0000 0x300000>; /* 4069k */
+			reg = <0xc50000 0x300000>; /* 4069k */
 		};
 
 		partition@all {
