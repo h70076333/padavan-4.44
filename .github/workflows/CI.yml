@@ -1,4 +1,4 @@
-name: NEWIFI
+name: ZTE-E8820S
 on: 
   release:
     types: [published]
@@ -37,7 +37,7 @@ jobs:
     
     - name: Build Firmware
       env:
-        TNAME: NEWIFI
+        TNAME: ZTE-E8820S
       run: |
         cd /opt/padavan/trunk
         if [ ! -f configs/templates/$TNAME.config ] ; then
