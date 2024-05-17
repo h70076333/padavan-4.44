@@ -10,20 +10,25 @@
 	model = "XiaoYu XY-C1";
 
 	chosen {
-		bootargs = "console=ttyS0,115200";
+		bootargs = "console=ttyS0,57600";
 	};
 
 	leds {
 		compatible = "gpio-leds";
 
-		work {
-			label = "lan";
-			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
+		stat_r {
+			label = "red";
+			gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
 		};
 
-		sys {
+		stat_y {
+			label = "yellow";
+			gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
+		};
+
+		stat_b {
 			label = "power";
-			gpios = <&gpio0 7 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
 		};
 	};
 
@@ -33,10 +38,10 @@
 		#size-cells = <0>;
 		poll-interval = <20>;
 
-		reset {
-			label = "reset";
-			gpios = <&gpio0 18 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_RESTART>;
+		wps {
+			label = "wps";
+			gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_WPS_BUTTON>;
 		};
 	};
 };
@@ -54,6 +59,7 @@
 		compatible = "jedec,spi-nor";
 		reg = <0>;
 		spi-max-frequency = <25000000>;
+		m25p,fast-read;
 
 		partition@0 {
 			label = "Bootloader";
@@ -72,17 +78,17 @@
 
 		partition@50000 {
 			label = "firmware";
-			reg = <0x50000 0x1f30000>;
+			reg = <0x50000 0xc60000 >;
 		};
 
-		partition@1f80000 {
+		partition@f80000 {
 			label = "Storage";
-			reg = <0x1f80000 0x80000>; /* 512K */
+			reg = <0xc90000 0x400000>; /* 4069k */
 		};
 
 		partition@all {
 			label = "ALL";
-			reg = <0x0 0x2000000>;
+			reg = <0x0 0x1000000>;
 		};
 	};
 };
