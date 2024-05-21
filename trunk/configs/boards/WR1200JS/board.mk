@@ -4,6 +4,6 @@
 # WR1200JS  # YOUHUA WR1200JS  # MT7621  #
 ##################################################################
 
-CFLAGS += -DBOARD_WR1200JS
+CFLAGS += -DBOARD_K2P -DBOARD_MT7615_DBDC
 BOARD_NUM_USB_PORTS=2
 CONFIG_BOARD_RAM_SIZE=128
