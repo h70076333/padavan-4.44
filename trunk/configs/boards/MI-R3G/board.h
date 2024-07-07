@@ -1,11 +1,11 @@
 /* Xiaomi Mi R3G */
 
-#define BOARD_PID		"MI-R3G"
-#define BOARD_NAME		"MI-R3G"
-#define BOARD_DESC		"Xiaomi Mi R3G Wireless Router"
-#define BOARD_VENDOR_NAME	"Beijing Xiaomi Technology Co., Ltd."
-#define BOARD_VENDOR_URL	"http://www.mi.com/"
-#define BOARD_MODEL_URL		"http://www.mi.com/miwifir3g"
+#define BOARD_PID		"TX180X"
+#define BOARD_NAME		"TX180X"
+#define BOARD_DESC		"TX180X Wireless Router"
+#define BOARD_VENDOR_NAME	"H3C"
+#define BOARD_VENDOR_URL	"http://www.h3c.com.cn/cn/"
+#define BOARD_MODEL_URL		"http://www.h3c.com.cn/cn/"
 #define BOARD_BOOT_TIME		20
 #define BOARD_FLASH_TIME	120
 
