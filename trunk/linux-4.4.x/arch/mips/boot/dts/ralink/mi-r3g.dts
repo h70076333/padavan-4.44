@@ -21,8 +21,8 @@
 			gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
 		};
 
-		sys_blue {
-			label = "power";
+		wan {
+			label = "wan";
 			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
 		};
 	};
