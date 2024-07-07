@@ -17,35 +17,14 @@
 		compatible = "gpio-leds";
 
 		sys_red {
-			label = "power_3";
-			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
-		};
-
-		sys_yellow {
-			label = "power_2";
-			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+			label = "power_red";
+			gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
 		};
 
 		sys_blue {
 			label = "power";
 			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
 		};
-
-		wan {
-			label = "wan";
-			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
-		};
-
-		lan1 {
-			label = "lan1";
-			gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
-		};
-
-		lan2 {
-			label = "lan2";
-			gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
-		};
-
 	};
 
 	gpio-keys-polled {
