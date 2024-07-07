@@ -7,7 +7,7 @@
 
 / {
 	compatible = "mediatek,mt7621-soc";
-	model = "tx180x";
+	model = "H3C TX180X";
 
 	chosen {
 		bootargs = "console=ttyS0,115200";
@@ -18,17 +18,17 @@
 
 		sys_red {
 			label = "power_3";
-			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
 		};
 
 		sys_yellow {
 			label = "power_2";
-			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
 		};
 
 		sys_blue {
 			label = "power";
-			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
 		};
 
 		wan {
@@ -43,7 +43,7 @@
 
 		lan2 {
 			label = "lan2";
-			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
 		};
 
 	};
@@ -56,7 +56,7 @@
 
 		reset {
 			label = "reset";
-			gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 18 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
 	};
