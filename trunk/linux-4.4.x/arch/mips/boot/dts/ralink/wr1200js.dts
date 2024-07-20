@@ -19,25 +19,25 @@
     
 		wlan5g {
 			label = "sw5g";
-			gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "phy1radio";
 		};
 
 		wlan2g {
 			label = "sw2g";
-			gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "phy0radio";
 		};
 
 		
          internet {
 			label = "blue:internet";
-			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
 		};
 
 	  usb {
 			label = "usb";
-			gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "usbport";
                  };      
 		
