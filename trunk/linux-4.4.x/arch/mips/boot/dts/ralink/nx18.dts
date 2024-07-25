@@ -8,7 +8,7 @@
 
   / {
 	compatible = "mediatek,mt7621-soc";
-	model = "H3C Tx180x";
+	model = "H3C Nx18";
 
 	chosen {
 		bootargs = "console=ttyS0,115200";
