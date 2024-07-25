@@ -1,8 +1,8 @@
 /* TX180X */
 
-#define BOARD_PID		"TX180X"
-#define BOARD_NAME		"TX180X"
-#define BOARD_DESC		"TX180X Wireless Router"
+#define BOARD_PID		"NX18"
+#define BOARD_NAME		"NX18"
+#define BOARD_DESC		"NX18 Wireless Router"
 #define BOARD_VENDOR_NAME	"H3C"
 #define BOARD_VENDOR_URL	"http://www.h3c.com.cn/cn/"
 #define BOARD_MODEL_URL		"http://www.h3c.com.cn/cn/"
