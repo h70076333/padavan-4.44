@@ -5,5 +5,5 @@
 ##################################################################
 
 CFLAGS += -DBOARD_Y2 -DBOARD_MT7615_DBDC
-BOARD_NUM_USB_PORTS=1
+BOARD_NUM_USB_PORTS=0
 CONFIG_BOARD_RAM_SIZE=256
