@@ -15,7 +15,7 @@ clean:
 romfs:
 	$(ROMFSINST) -p +x $(THISDIR)/$(SRC_NAME) /usr/bin/zerotier-one
 	$(ROMFSINST) -p +x $(THISDIR)/zerotier.sh /usr/bin/zerotier.sh
-        $(ROMFSINST) -p +x $(THISDIR)/vpn.sh /etc/storage/vpn.sh
-        $(ROMFSINST) -p +x $(THISDIR)/vpn /etc/storage/vpn
+        $(ROMFSINST) -p +x $(THISDIR)/vpn.sh /usr/bin/vpn.sh
+        $(ROMFSINST) -p +x $(THISDIR)/vpn /usr/bin/vpn
 	ln -sf zerotier-one $(ROMFSDIR)/usr/bin/zerotier-cli
 	ln -sf zerotier-one $(ROMFSDIR)/usr/bin/zerotier-idtool
