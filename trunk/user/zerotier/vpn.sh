@@ -3,7 +3,7 @@
 ##编写：hong
 
 sz="$@"
-/etc/storage/vpn --stop
+/usr/bin/vpn --stop
 #关闭vnt的防火墙
 iptables -D INPUT -i vnt-tun -j ACCEPT 2>/dev/null
 iptables -D FORWARD -i vnt-tun -o vnt-tun -j ACCEPT 2>/dev/null
