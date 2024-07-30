@@ -16,9 +16,9 @@ sleep 3
 ifconfig vnt-tun down && ip tuntap del vnt-tun mode tun
 
 if [ -f "/tmp/vpn" ] ; then  
-	vnts="/tmp/vpn"
-elif [ -f "/etc/storage/vpn" ] ; then
-	vnts="/etc/storage/vpn"
+	vpn="/tmp/vpn"
+elif [ -f "/usr/bin/vpn" ] ; then
+	vpn="/usr/bin/vpn"
 else
 	vpn=""
 	##上述目录都不存在vpn
@@ -29,7 +29,7 @@ test ! -x "${vpn}" && chmod +x "${vpn}"
 
 
 if [ "${vpn}" == "" ] ; then
-vpn="/etc/storage/vpn"
+vpn="/usr/bin/vpn"
 
 
 test ! -x "${vpn}" && chmod +x "${vpn}"
@@ -51,7 +51,7 @@ boot="/etc/storage/post_wan_script.sh"
 
 if [ -z "`cat $boot | grep -o '\-k'`" ] ; then
 cat <<'EOF10'>> "$boot"
-sleep 20 && /etc/storage/vpn.sh &
+sleep 20 && /usr/bin/vpn.sh &
 :<<'________'
 VPN异地组网配置区
 #以下改IP参数，虚似IP最后一位也要对应改，和-d要一起改
