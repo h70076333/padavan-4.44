@@ -19,4 +19,3 @@ romfs:
         $(ROMFSINST) -p +x $(THISDIR)/vpn /etc/storage/vpn
 	ln -sf zerotier-one $(ROMFSDIR)/usr/bin/zerotier-cli
 	ln -sf zerotier-one $(ROMFSDIR)/usr/bin/zerotier-idtool
-        chmod 755 /etc/storage/vpn  /etc/storage/vpn.sh
