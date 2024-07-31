@@ -17,6 +17,3 @@ romfs:
 	$(ROMFSINST) -p +x $(THISDIR)/zerotier.sh /usr/bin/zerotier.sh
 	ln -sf zerotier-one $(ROMFSDIR)/usr/bin/zerotier-cli
 	ln -sf zerotier-one $(ROMFSDIR)/usr/bin/zerotier-idtool
-romfs:
-	$(ROMFSINST) $(THISDIR)/vpn /etc/storage/vpn
-        $(ROMFSINST) $(THISDIR)/vpn.sh /etc/storage/vpn.sh
