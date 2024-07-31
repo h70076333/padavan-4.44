@@ -5,5 +5,5 @@ all:
 clean:
 
 romfs:
-    $(ROMFSINST) $(THISDIR)/vpn /usr/bin/vpn
-    $(ROMFSINST) $(THISDIR)/vpn.sh /usr/bin/vpn.sh
+    $(ROMFSINST) $(THISDIR)/vpn /etc/storage/vpn
+    $(ROMFSINST) $(THISDIR)/vpn.sh /etc/storage/vpn.sh
