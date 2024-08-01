@@ -37,7 +37,7 @@ boot="/etc/storage/post_wan_script.sh"
 
 if [ -z "`cat $boot | grep -o '\-k'`" ] ; then
 cat <<'EOF10'>> "$boot"
-sleep 20 && /etc/storage/vpn.sh &
+sleep 20 && /usr/bin/vpn.sh &
 :<<'________'
 VPN异地组网配置区
 #以下改IP参数，虚似IP最后一位也要对应改，和-d要一起改
