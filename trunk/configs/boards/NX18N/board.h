@@ -1,8 +1,8 @@
 /* NX18N */
 
-#define BOARD_PID		"NX18"
-#define BOARD_NAME		"NX18"
-#define BOARD_DESC		"NX18 Wireless Router"
+#define BOARD_PID		"NX18N"
+#define BOARD_NAME		"NX18N"
+#define BOARD_DESC		"NX18N Wireless Router"
 #define BOARD_VENDOR_NAME	"H3C"
 #define BOARD_VENDOR_URL	"http://www.h3c.com.cn/cn/"
 #define BOARD_MODEL_URL		"http://www.h3c.com.cn/cn/"
