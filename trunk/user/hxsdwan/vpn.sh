@@ -15,22 +15,8 @@ sleep 3
 #清除vpn的虚拟网卡
 ifconfig vnt-tun down && ip tuntap del vnt-tun mode tun
 
-if [ -f "/tmp/vpn" ] ; then  
-	vpn="/tmp/vpn"
-elif [ -f "/usr/bin/vpn" ] ; then
-	vpn="/usr/bin/vpn"
-else
-	vpn=""
-	##上述目录都不存在vpn
-fi
-
-## 查找vpn文件
-test ! -x "${vpn}" && chmod +x "${vpn}"
-
-
 if [ "${vpn}" == "" ] ; then
 vpn="/usr/bin/vpn"
-
 
 test ! -x "${vpn}" && chmod +x "${vpn}"
 ##判断文件有无执行权限，无赋予运行权限
