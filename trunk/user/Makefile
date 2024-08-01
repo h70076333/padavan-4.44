@@ -184,6 +184,7 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_MENTOHUST)		+= mentohust
 dir_$(CONFIG_FIRMWARE_INCLUDE_SMARTDNS)		+= smartdns
 dir_$(CONFIG_FIRMWARE_INCLUDE_xTUN) 			+= xTun
 dir_$(CONFIG_FIRMWARE_INCLUDE_HXSDWAN)		+= hxsdwan
+dir_$(CONFIG_FIRMWARE_INCLUDE_HXVPN)		+= hxvpn
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_WING),y)
 dir_y 			+= wing
 dir_y 			+= ipt2socks
