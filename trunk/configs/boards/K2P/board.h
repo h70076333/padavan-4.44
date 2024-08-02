@@ -1,11 +1,11 @@
-/* K2P */
+/* KN18N */
 
-#define BOARD_PID		"K2P"
-#define BOARD_NAME		"K2P"
-#define BOARD_DESC		"PHICOMM K2P Wireless Router"
-#define BOARD_VENDOR_NAME	"PHICOMM"
-#define BOARD_VENDOR_URL	"http://www.phicomm.com/"
-#define BOARD_MODEL_URL		"http://www.phicomm.com/"
+#define BOARD_PID		"KN18N"
+#define BOARD_NAME		"KN18N"
+#define BOARD_DESC		"H3C KN18N Wireless Router"
+#define BOARD_VENDOR_NAME	"H3C"
+#define BOARD_VENDOR_URL	"http://www.h3c.com/"
+#define BOARD_MODEL_URL		"http://www.h3c.com/"
 #define BOARD_BOOT_TIME		30
 #define BOARD_FLASH_TIME	120
 
