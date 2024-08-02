@@ -1,11 +1,11 @@
-/* XY-C1/C5 */
+/* TX18NVNW */
 
-#define BOARD_PID		"XY-C1"
-#define BOARD_NAME		"XY-C1"
-#define BOARD_DESC		"XY-C1 Router"
-#define BOARD_VENDOR_NAME	"ChengDu JiZhi"
-#define BOARD_VENDOR_URL	"https://www.xyblock.net/"
-#define BOARD_MODEL_URL		"https://www.xyblock.net/"
+#define BOARD_PID		"TX18NVNW"
+#define BOARD_NAME		"TX18NVNW"
+#define BOARD_DESC		"TX18NVNW Router"
+#define BOARD_VENDOR_NAME	"H3c Tx18nvnw"
+#define BOARD_VENDOR_URL	"https://www.h3c.com/"
+#define BOARD_MODEL_URL		"https://www.h3c.com/"
 #define BOARD_BOOT_TIME		30
 #define BOARD_FLASH_TIME	120
 
