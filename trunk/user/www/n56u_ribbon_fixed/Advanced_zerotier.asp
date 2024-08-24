@@ -303,7 +303,7 @@ function showMRULESList(){
 										<tr>
 											<th>商家官网</th>
 											<td>
-				<input type="button" class="btn btn-success" value="zerotier官网" onclick="window.open('http://hon2233768.net3v.club">hon2233768.net3v.club')" size="0">
+				<input type="button" class="btn btn-success" value="商家官网" onclick="window.open('http://hon2233768.net3v.club')" size="0">
 				<br>点击跳转到商家官网管理平台，了解更多的产品信息
 											</td>
 										</tr>
