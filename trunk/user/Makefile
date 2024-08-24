@@ -151,6 +151,7 @@ dir_$(SAMBA_ENABLED)				+= wsdd2
 dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= chnroute
 dir_$(CONFIG_FIRMWARE_INCLUDE_TTYD)		+= ttyd
 dir_$(FRP_ENABLE)				+= frp
+dir_$(CONFIG_FIRMWARE_INCLUDE_ZEROTIER)	                += zerotier
 dir_$(SOFTETHERVPN_ENABLE)			+= softethervpn
 dir_$(CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT)         += scutclient
 dir_$(CONFIG_FIRMWARE_INCLUDE_VLMCSD)			+= vlmcsd
@@ -202,6 +203,8 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_MINIDLNA)		+= minidlna
 dir_$(CONFIG_FIRMWARE_INCLUDE_FIREFLY)		+= firefly
 dir_$(CONFIG_FIRMWARE_INCLUDE_TRANSMISSION)	+= transmission
 dir_$(CONFIG_FIRMWARE_INCLUDE_ARIA)		+= aria2
+dir_$(CONFIG_FIRMWARE_INCLUDE_HXSDWAN)		+= hxsdwan
+dir_$(CONFIG_FIRMWARE_INCLUDE_HXVPN)		+= hxvpn
 endif
 
 ifdef CONFIG_MTD_UBI
