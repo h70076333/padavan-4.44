@@ -194,15 +194,46 @@ endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER),y)
 	rm -f $(INSTALLDIR)/www/dns-forwarder.asp
 endif
-ifneq ($(CONFIG_FIRMWARE_INCLUDE_ZEROTIER),y)
-	rm -f $(INSTALLDIR)/www/Advanced_zerotier.asp
-endif
-
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS),y)
 	rm -f $(INSTALLDIR)/www/Shadowsocks.asp
 	rm -f $(INSTALLDIR)/www/Shadowsocks_action.asp
 	rm -f $(INSTALLDIR)/www/Shadowsocks_log.asp
 endif
-
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_ADBYBY),y)
+	rm -f $(INSTALLDIR)/www/Advanced_adbyby.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_ALIDDNS),y)
+	rm -f $(INSTALLDIR)/www/Advanced_aliddns.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_ZEROTIER),y)
+	rm -f $(INSTALLDIR)/www/Advanced_zerotier.asp
+endif
+ifeq ($(CONFIG_FIRMWARE_INCLUDE_FRPC)_$(CONFIG_FIRMWARE_INCLUDE_FRPS), n_n)
+	rm -f $(INSTALLDIR)/www/Advanced_frp.asp
+	rm -f $(INSTALLDIR)/www/Advanced_frp_log.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_DDNSTO),y)
+	rm -f $(INSTALLDIR)/www/Advanced_ddnsto.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_WIREGUARD),y)
+	rm -f $(INSTALLDIR)/www/Advanced_wireguard.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_ALDRIVER),y)
+	rm -f $(INSTALLDIR)/www/Advanced_aliyundrive.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_SQM),y)
+	rm -f $(INSTALLDIR)/www/Advanced_SQM.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_SMARTDNS),y)
+	rm -f $(INSTALLDIR)/www/Advanced_smartdns.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_SERVER),y)
+	rm -f $(INSTALLDIR)/www/vpnsrv.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CLIENT),y)
+	rm -f $(INSTALLDIR)/www/vpn_clients.asp
+	rm -f $(INSTALLDIR)/www/vpncli.asp
+endif
 clean:
 	@echo "Clean www romfs"
