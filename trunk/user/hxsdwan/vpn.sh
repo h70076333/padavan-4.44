@@ -71,7 +71,6 @@ vpn_dirname=$(dirname ${vpn})
 
 cd $vpn_dirname && ./vpn $aswr $white $white_token $gateway $netmask &
 
-fi
 sleep 3
 if [ ! -z "`pidof vpn`" ] ; then
 logger -t "vpn" "启动成功"
