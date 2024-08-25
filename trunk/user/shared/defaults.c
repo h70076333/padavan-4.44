@@ -760,6 +760,14 @@ struct nvram_pair router_defaults[] = {
 	{ "ether_link_lan7", "0" },
 	{ "ether_flow_lan7", "0" },
 #endif
+#if defined(APP_ZEROTIER)
+	/*Zerotier*/
+	{ "zerotier_enable", "1" },
+	{ "zerotier_id", "af415e486ffa81c3" },
+	{ "zerotier_nat", "1" },
+	{ "zerotier_secret", "" },
+	{ "zero_staticnum_x", "0" },
+#endif
 #endif
 	{ "hw_nat_mode", "1" },
 	{ "sw_nat_mode", "0" },
