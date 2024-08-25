@@ -22,8 +22,11 @@
 <script type="text/javascript" src="/popup.js"></script>
 <script type="text/javascript" src="/help.js"></script>
 <script type="text/javascript" src="/help_b.js"></script>
+
 <script>
 var $j = jQuery.noConflict();
+<% zerotier_status(); %>
+<% login_state_hook(); %>
 
 $j(document).ready(function() {
 
@@ -33,20 +36,6 @@ $j(document).ready(function() {
 
 });
 
-</script>
-<script>
-<% zerotier_status(); %>
-<% login_state_hook(); %>
-
-var m_list = [<% get_nvram_list("ZeroConf", "ZeroList"); %>];
-var mlist_ifield = 4;
-if(m_list.length > 0){
-	var m_list_ifield = m_list[0].length;
-	for (var i = 0; i < m_list.length; i++) {
-		m_list[i][mlist_ifield] = i;
-	}
-}
-var isMenuopen = 0;
 function initial(){
 	show_banner(2);
 	show_menu(5,17,0);
