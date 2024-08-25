@@ -23,266 +23,449 @@
 
 <script>
 var $j = jQuery.noConflict();
-<% scutclient_status(); %>
-<% scutclient_version(); %>
+$j(document).ready(function() {
 
-$j(document).ready(function(){
-	init_itoggle('scutclient_enable');
-	init_itoggle('scutclient_debug');
-	init_itoggle('scutclient_watchcat');
-	init_itoggle('scutclient_wdg_force');
-	init_itoggle('scutclient_skip_udp_hb');
-	fill_status(scutclient_status());
+    init_itoggle('zerotier_enable');
+    init_itoggle('zerotier_nat');
+    init_itoggle('zerotiermoon_enable');
+
 });
+		</script>
+		<script>
+			<% zerotier_status(); %>
+<% login_state_hook(); %>
 
-function initial(){
-	show_banner(2);
-	show_menu(5,11,1);
-	show_footer();
-	$("scutclient_version").innerHTML = '<#version#>' + scutclient_version() ;
+var m_list = [ <% get_nvram_list("ZeroConf", "ZeroList"); %> ];
+var mlist_ifield = 4;
+if (m_list.length > 0) {
+    var m_list_ifield = m_list[0].length;
+    for (var i = 0; i < m_list.length; i++) {
+        m_list[i][mlist_ifield] = i;
+    }
+}
+var isMenuopen = 0;
+
+function initial() {
+    show_banner(2);
+    show_menu('if-m1-syssettings', 'if-m2-zerotier', 0);
+    showmenu();
+    fill_status(zerotier_status());
+    showMRULESList();
+    show_footer();
+
 }
 
-function applyRule(){
-	if(validForm()){
-		showLoading();
-		document.form.action_mode.value = " Restart ";
-		document.form.current_page.value = "scutclient.asp";
-		document.form.next_page.value = "";
-		document.form.submit();
-	}
+function showmenu() {
+    showhide_div('allink', found_app_aliddns());
+    showhide_div('ddlink', found_app_ddnsto());
+    showhide_div('wilink', found_app_wireguard());
 }
 
-function validForm(){
-	var addr_obj = document.form.scutclient_server_auth_ip;
+function applyRule() {
+    showLoading();
 
-	if(!validate_ipaddr_final(addr_obj, ''))
-		return false;
+    document.form.action_mode.value = " Restart ";
+    document.form.current_page.value = "/Advanced_zerotier.asp";
+    document.form.next_page.value = "";
 
-	return true;
+    document.form.submit();
 }
 
-function submitInternet(v){
-	showLoading();
-	document.scutclient_action.action = "scutclient_action.asp";
-	document.scutclient_action.connect_action.value = v;
-	document.scutclient_action.submit();
+function done_validating(action) {
+    refreshpage();
 }
 
-function fill_status(status_code){
-	var stext = "Unknown";
-	if (status_code == 0)
-		stext = "<#Stopped#>";
-	else if (status_code == 1)
-		stext = "<#Running#>";
-	$("scutclient_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
+function fill_status(status_code) {
+    var stext = "Unknown";
+    if (status_code == 0)
+        stext = "<#Stopped#>";
+    else if (status_code == 1)
+        stext = "<#Running#>";
+    $("zerotier_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
 }
 
-</script>
-
-<style>
-.nav-tabs > li > a {
-    padding-right: 6px;
-    padding-left: 6px;
+function markGroupRULES(o, c, b) {
+    document.form.group_id.value = "ZeroList";
+    if (b == " Add ") {
+        if (document.form.zero_staticnum_x_0.value >= c) {
+            alert("<#JS_itemlimit1#> " + c + " <#JS_itemlimit2#>");
+            return false;
+        } else if (document.form.zero_ip_x_0.value == "") {
+            alert("<#JS_fieldblank#>");
+            document.form.zero_ip_x_0.focus();
+            document.form.zero_ip_x_0.select();
+            return false;
+        } else if (document.form.zero_route_x_0.value == "") {
+            alert("<#JS_fieldblank#>");
+            document.form.zero_route_x_0.focus();
+            document.form.zero_route_x_0.select();
+            return false;
+        } else {
+            for (i = 0; i < m_list.length; i++) {
+                if (document.form.zero_ip_x_0.value == m_list[i][0]) {
+                    if (document.form.zero_route_x_0.value == m_list[i][1]) {
+                        alert('<#JS_duplicate#>' + ' (' + m_list[i][1] + ')');
+                        document.form.zero_ip_x_0.focus();
+                        document.form.zero_ip_x_0.select();
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    pageChanged = 0;
+    document.form.action_mode.value = b;
+    return true;
 }
-</style>
-</head>
 
-<body onload="initial();" onunLoad="return unload_body();">
+function showMRULESList() {
+    var code = '<table width="100%" cellspacing="0" cellpadding="3" class="table table-list">';
+    if (m_list.length == 0)
+        code += '<tr><td colspan="4" style="text-align: center;"><div class="alert alert-info"><#IPConnection_VSList_Norule#></div></td></tr>';
+    else {
+        for (var i = 0; i < m_list.length; i++) {
+            if (m_list[i][0] == 0)
+                zero_enable = "已禁用";
+            else {
+                zero_enable = "已启用";
+            }
+            code += '<tr id="rowrl' + i + '">';
+            code += '<td width="20%">&nbsp;' + zero_enable + '</td>';
+            code += '<td width="40%">&nbsp;' + m_list[i][1] + '</td>';
+            code += '<td width="40%">' + m_list[i][2] + '</td>';
+            code += '<td width="50%"></td>';
+            code += '<center><td width="20%" style="text-align: center;"><input type="checkbox" name="ZeroList_s" value="' + m_list[i][mlist_ifield] + '" onClick="changeBgColorrl(this,' + i + ');" id="check' + m_list[i][mlist_ifield] + '"></td></center>';
 
-<div class="wrapper">
-    <div class="container-fluid" style="padding-right: 0px">
-        <div class="row-fluid">
-            <div class="span3"><center><div id="logo"></div></center></div>
-            <div class="span9" >
-                <div id="TopBanner"></div>
-            </div>
-        </div>
-    </div>
+            code += '</tr>';
+        }
+        code += '<tr>';
+        code += '<td colspan="4">&nbsp;</td>';
+        code += '<td><button class="btn btn-danger" type="submit" onclick="markGroupRULES(this, 64, \' Del \');" name="ZeroList"><i class="if if-btn-minus"></i></button></td>';
+        code += '</tr>';
+    }
+    code += '</table>';
+    $("MRULESList_Block").innerHTML = code;
+}
+		</script>
+	</head>
+	<body onload="initial();" onunLoad="return unload_body();">
+		<div id="Loading" class="popup_bg">
+		</div>
+		<div class="wrapper">
+			<div class="container-fluid" style="padding-right: 0px">
+				<div class="row-fluid">
+					<div class="span3">
+						<center>
+							<div id="logo">
+							</div>
+						</center>
+					</div>
+					<div class="span9">
+						<div id="TopBanner">
+						</div>
+					</div>
+				</div>
+			</div>
+			<iframe name="hidden_frame" id="hidden_frame" src="" width="0" height="0"
+			frameborder="0">
+			</iframe>
+			<form method="post" name="form" id="ruleForm" action="/start_apply.htm"
+			target="hidden_frame">
+				<input type="hidden" name="current_page" value="Advanced_zerotier.asp">
+				<input type="hidden" name="next_page" value="">
+				<input type="hidden" name="next_host" value="">
+				<input type="hidden" name="sid_list" value="ZeroConf;">
+				<input type="hidden" name="group_id" value="ZeroList">
+				<input type="hidden" name="action_mode" value="">
+				<input type="hidden" name="action_script" value="">
+				<input type="hidden" name="zero_staticnum_x_0" value="<% nvram_get_x("
+				ZeroList ", "zero_staticnum_x "); %>" readonly="1" />
+				<div class="container-fluid">
+					<div class="row-fluid">
+						<div class="span3">
+							<!--Sidebar content-->
+							<!--=====Beginning of Main Menu=====-->
+							<div class="well sidebar-nav side_nav" style="padding: 0px;">
+								<ul id="mainMenu" class="clearfix">
+								</ul>
+								<ul class="clearfix">
+									<li>
+										<div id="subMenu" class="accordion">
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="span9">
+							<!--Body content-->
+							<div class="row-fluid">
+								<div class="span12">
+									<div class="box well grad_colour_dark_blue">
+										<h2 class="box_head round_top">
+											<#menu5_30#>
+												-
+												<#menu5_32#>
+										</h2>
+										<div class="round_bottom">
+											<div>
+												<ul class="nav nav-tabs" style="margin-bottom: 10px;">
+													<li id="allink" style="display:none">
+														<a href="Advanced_aliddns.asp">
+															<#menu5_23_1#>
+														</a>
+													</li>
+													<li class="active">
+														<a href="Advanced_zerotier.asp">
+															<#menu5_32_1#>
+														</a>
+													</li>
+													<li id="ddlink" style="display:none">
+														<a href="Advanced_ddnsto.asp">
+															<#menu5_34_1#>
+														</a>
+													</li>
+													<li id="wilink" style="display:none">
+														<a href="Advanced_wireguard.asp">
+															<#menu5_35_1#>
+														</a>
+													</li>
+												</ul>
+											</div>
+											<div class="row-fluid">
+												<div id="tabMenu" class="submenuBlock">
+												</div>
+												<div class="alert alert-info" style="margin: 10px;">
+													<p>
+														Zerotier是一个开源，跨平台，而且适合内网穿透互联的傻瓜配置虚拟 VPN LAN
+														<br>
+													</p>
+												</div>
+												<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table">
+													<tr>
+														<th>
+															<#running_status#>
+														</th>
+														<td id="zerotier_status">
+														</td>
+													</tr>
+													<tr>
+														<th>
+															ZeroTier 客户端 ID
+														</th>
+														<td>
+															<input type="text" class="input" name="zerotier_id" id="zerotier_id" style="width: 200px"
+															value="<% nvram_get_x(" ","zerotier_id "); %>" />
+														</td>
+													</tr>
+													<tr>
+														<th width="30%" style="border-top: 0 none;">
+															允许客户端NAT
+														</th>
+														<td style="border-top: 0 none;">
+															<input type="checkbox" id="zerotier_nat_fake" <% nvram_match_x( "",
+															"zerotier_nat", "1", "value=1 checked"); %>
+															<% nvram_match_x( "", "zerotier_nat", "0", "value=0"); %>
+																/>
+																<div style="position: absolute; margin-left: -10000px;">
+																	<input type="radio" value="1" name="zerotier_nat" id="zerotier_nat_1"
+																	class="input" value="1" <% nvram_match_x( "", "zerotier_nat", "1",
+																	"checked"); %>
+																	/>
+																	<#checkbox_Yes#>
+																		<input type="radio" value="0" name="zerotier_nat" id="zerotier_nat_0"
+																		class="input" value="0" <% nvram_match_x( "", "zerotier_nat", "0",
+																		"checked"); %>
+																		/>
+																		<#checkbox_No#>
+																</div>
+																允许Zerotier的拨入客户端访问路由器LAN资源（需要在 Zerotier管理页面设定到LAN网段的路由表）
+														</td>
+													</tr>
+													<tr>
+														<th width="30%" style="border-top: 0 none;">
+															启用ZeroTier客户端
+														</th>
+														<td style="border-top: 0 none;">
+															<input type="checkbox" id="zerotier_enable_fake" <% nvram_match_x( "",
+															"zerotier_enable", "1", "value=1 checked"); %>
+															<% nvram_match_x( "", "zerotier_enable", "0", "value=0"); %>
+																/>
+																<div style="position: absolute; margin-left: -10000px;">
+																	<input type="radio" value="1" name="zerotier_enable" id="zerotier_enable_1"
+																	class="input" value="1" <% nvram_match_x( "", "zerotier_enable", "1",
+																	"checked"); %>
+																	/>
+																	<#checkbox_Yes#>
+																		<input type="radio" value="0" name="zerotier_enable" id="zerotier_enable_0"
+																		class="input" value="0" <% nvram_match_x( "", "zerotier_enable", "0",
+																		"checked"); %>
+																		/>
+																		<#checkbox_No#>
+																</div>
+														</td>
+													</tr>
+													<tr>
+														<th>
+															ZeroTier Moon Network ID
+														</th>
+														<td>
+															<input type="text" class="input" name="zerotier_moonid" id="zerotier_moonid"
+															style="width: 200px" value="<% nvram_get_x(" ","zerotier_moonid "); %>"
+															/>
+														</td>
+													</tr>
+													<tr>
+														<th width="30%" style="border-top: 0 none;">
+															启用ZeroTier Moon服务器
+														</th>
+														<td style="border-top: 0 none;">
+															<input type="checkbox" id="zerotiermoon_enable_fake" <% nvram_match_x(
+															"", "zerotiermoon_enable", "1", "value=1 checked"); %>
+															<% nvram_match_x( "", "zerotiermoon_enable", "0", "value=0"); %>
+																/>
+																<div style="position: absolute; margin-left: -10000px;">
+																	<input type="radio" value="1" name="zerotiermoon_enable" id="zerotiermoon_enable_1"
+																	class="input" value="1" <% nvram_match_x( "", "zerotiermoon_enable",
+																	"1", "checked"); %>
+																	/>
+																	<#checkbox_Yes#>
+																		<input type="radio" value="0" name="zerotiermoon_enable" id="zerotiermoon_enable_0"
+																		class="input" value="0" <% nvram_match_x( "", "zerotiermoon_enable",
+																		"0", "checked"); %>
+																		/>
+																		<#checkbox_No#>
+																</div>
+														</td>
+													</tr>
+													<tr>
+														<th>
+															ZeroTier Moon服务器 IP or DomainName
+														</th>
+														<td>
+															<input type="text" class="input" name="zerotiermoon_ip" id="zerotiermoon_ip"
+															style="width: 200px" value="<% nvram_get_x(" ","zerotiermoon_ip "); %>"
+															/>
+															<br>
+															如果没有填写，将使用Wan获得的IP（请注意为公网IP）；如果填写IP地址，将使用该IP（请注意为公网IP）；如果填写域名，将使用域名获得IP（请注意为公网IP）。
+														</td>
+													</tr>
+													<tr>
+														<th>
+															ZeroTier Moon服务器 ID
+														</th>
+														<td>
+															<input type="text" class="input" name="zerotiermoon_id" id="zerotiermoon_id"
+															style="width: 200px" value="<% nvram_get_x(" ","zerotiermoon_id "); %>"
+															readonly />
+															<br>
+															服务器启用后自动生成Moon服务器的ID，在加入Moon时请使用客户端zerotier-cli orbit
+															<该ID>
+																<该ID>
+																	。
+														</td>
+													</tr>
+													<tr>
+														<th>
+															zerotier官网
+														</th>
+														<td>
+															<input type="button" class="btn btn-success" value="zerotier官网" onclick="window.open('https://my.zerotier.com/network')"
+															size="0">
+															<br>
+															点击跳转到Zerotier官网管理平台，新建或者管理网络，并允许客户端接入访问你私人网路（新接入的节点默认不允许访问）
+														</td>
+													</tr>
+												</table>
+												<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table">
+													<tr>
+														<th colspan="4">
+															需要访问其它zerotier的内网LAN网段,IP和网关和zerotier后台对应即可(本机的LAN网段不用填进去)
+														</th>
+													</tr>
+													<tr id="row_rules_caption">
+														<th width="10%">
+															启用
+															<i class="if if-th-sort">
+															</i>
+														</th>
+														<th width="20%">
+															IP
+															<i class="if if-th-sort">
+															</i>
+														</th>
+														<th width="25%">
+															网关
+															<i class="if if-th-sort">
+															</i>
+														</th>
+														<th width="5%">
+															<center>
+																<i class="if if-th-list">
+																</i>
+															</center>
+														</th>
+													</tr>
+													<tr>
+														<th>
+															<select name="zero_enable_x_0" class="input" style="width: 100px">
+																<option value="1" <% nvram_match_x( "", "zero_enable_x_0", "0",
+																"selected"); %>
+																	>是
+																</option>
+																<option value="0" <% nvram_match_x( "", "zero_enable_x_0", "0",
+																"selected"); %>
+																	>否
+																</option>
+															</select>
+														</th>
+														<th>
+															<input type="text" maxlength="255" class="span12" style="width: 200px"
+															size="200" name="zero_ip_x_0" value="<% nvram_get_x(" ", "zero_ip_x_0
+															"); %>"/>
+														</th>
+														<th>
+															<input type="text" maxlength="255" class="span12" style="width: 200px"
+															size="200" name="zero_route_x_0" value="<% nvram_get_x(" ", "zero_route_x_0
+															"); %>" />
+														</th>
+														<th>
+															<button class="btn" style="max-width: 219px" type="submit" onclick="return markGroupRULES(this, 64, ' Add ');"
+															name="markGroupRULES2" value="<#CTL_add#>" size="12">
+																<i class="if if-btn-plus">
+																</i>
+															</button>
+														</th>
+														</td>
+													</tr>
+													<tr id="row_rules_body">
+														<td colspan="4" style="border-top: 0 none; padding: 0px;">
+															<div id="MRULESList_Block">
+															</div>
+														</td>
+													</tr>
+												</table>
+												<tr>
+													<td colspan="4" style="border-top: 0 none;">
+														<br />
+														<center>
+															<input class="btn btn-primary" style="width: 219px" type="button" value="<#CTL_apply#>"
+															onclick="applyRule()" />
+														</center>
+													</td>
+												</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div id="footer">
+			</div>
+		</div>
+	</body>
 
-    <div id="Loading" class="popup_bg"></div>
-
-    <iframe name="hidden_frame" id="hidden_frame" src="" width="0" height="0" frameborder="0"></iframe>
-    <form method="post" name="form" id="ruleForm" action="/start_apply.htm" target="hidden_frame">
-	
-    <input type="hidden" name="current_page" value="scutclient.asp">
-    <input type="hidden" name="next_page" value="">
-    <input type="hidden" name="next_host" value="">
-    <input type="hidden" name="sid_list" value="ScutclientConf;">
-    <input type="hidden" name="group_id" value="">
-    <input type="hidden" name="action_mode" value="">
-    <input type="hidden" name="action_script" value="">
-
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="span3">
-                <!--Sidebar content-->
-                <!--=====Beginning of Main Menu=====-->
-                <div class="well sidebar-nav side_nav" style="padding: 0px;">
-                    <ul id="mainMenu" class="clearfix"></ul>
-                    <ul class="clearfix">
-                        <li>
-                            <div id="subMenu" class="accordion"></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="span9">
-                <!--Body content-->
-                <div class="row-fluid">
-                    <div class="span12">
-                        <div class="box well grad_colour_dark_blue">
-                            <h2 class="box_head round_top"><#menu5_13#></h2>
-                            <div class="round_bottom">
-                                <div class="row-fluid">
-                                    <div id="tabMenu" class="submenuBlock"></div>
-                                    <table width="100%" cellpadding="4" cellspacing="0" class="table">
-                                        <tr> <th colspan="2" style="background-color: #E3E3E3;"><#menu5_1_1#></th> </tr>
-
-                                        <tr> <th width="50%"><#InetControl#></th>
-                                            <td style="border-top: 0 none;" colspan="2">
-                                                <input type="button" id="btn_connect_1" class="btn btn-info" value=<#Connect#> onclick="submitInternet('Reconnect');">
-                                                <input type="button" id="btn_connect_0" class="btn btn-danger" value=<#Disconnect#> onclick="submitInternet('Disconnect');">
-                                            </td>
-                                        </tr>
-
-                                        <tr> <th><#running_status#>&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-info" style="padding: 5px 5px 5px 5px;" id="scutclient_version"></span> </th>
-                                            <td id="scutclient_status" colspan="3"></td>
-                                        </tr>
-
-                                        <tr> <th><#menu5_13_enable#></th>
-                                            <td>
-                                                <div class="main_itoggle">
-                                                    <div id="scutclient_enable_on_of">
-                                                        <input type="checkbox" id="scutclient_enable_fake" <% nvram_match_x("", "scutclient_enable", "1", "value=1 checked"); %><% nvram_match_x("", "scutclient_enable", "0", "value=0"); %>>
-                                                    </div>
-                                                </div>
-
-                                                <div style="position: absolute; margin-left: -10000px;">
-                                                    <input type="radio" value="1" name="scutclient_enable" id="scutclient_enable_1" <% nvram_match_x("", "scutclient_enable", "1", "checked"); %>><#checkbox_Yes#>
-                                                    <input type="radio" value="0" name="scutclient_enable" id="scutclient_enable_0" <% nvram_match_x("", "scutclient_enable", "0", "checked"); %>><#checkbox_No#>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr> <th width="50%"><#menu5_13_username#></th>
-                                            <td>
-                                                <input type="text" maxlength="32" class="input" size="32" name="scutclient_username" style="width: 145px" value="<% nvram_get_x("","scutclient_username"); %>" />
-                                            </td>
-                                        </tr>
-
-                                        <tr> <th width="50%"><#menu5_13_password#></th>
-                                            <td>
-                                                <input type="password" maxlength="32" class="input" size="32" name="scutclient_password" id="scutclient_password" style="width: 145px" value="<% nvram_get_x("","scutclient_password"); %>" />
-                                                <button style="margin-left: -5px;" class="btn" type="button" onclick="passwordShowHide('scutclient_password')"><i class="icon-eye-close"></i></button>
-                                            </td>
-                                        </tr>	
-
-                                        <tr> <th width="50%"><#menu5_13_authip#></th>
-                                            <td>
-                                                <input type="text" maxlength="15" class="input" size="15" name="scutclient_server_auth_ip" style="width: 145px" value="<% nvram_get_x("","scutclient_server_auth_ip"); %>" onkeypress="return is_ipaddr(this,event);"/>
-                                            </td>
-                                        </tr>
-
-                                        <tr> <th width="50%"><#menu5_13_hostname#></th>
-                                            <td>
-                                                <input type="text" maxlength="32" class="input" size="32" name="scutclient_hostname" value="<% nvram_get_x("", "scutclient_hostname"); %>">
-                                            </td>
-                                        </tr>
-
-                                        <tr> <th width="50%"><#menu5_13_version#></th>
-                                            <td>
-                                                <input type="text" maxlength="32" class="input" size="32" name="scutclient_version" value="<% nvram_get_x("", "scutclient_version"); %>">
-                                            </td>
-                                        </tr>
-
-                                        <tr> <th width="50%"><#menu5_13_hash#></th>
-                                            <td>
-                                                <input type="text" maxlength="64" class="input" size="64" name="scutclient_hash" value="<% nvram_get_x("", "scutclient_hash"); %>">
-                                            </td>
-                                        </tr>
-
-                                        <tr> <th><#menu5_13_debug#></th>
-                                            <td>
-                                                <div class="main_itoggle">
-                                                    <div id="scutclient_debug_on_of">
-                                                        <input type="checkbox" id="scutclient_debug_fake" <% nvram_match_x("", "scutclient_debug", "1", "value=1 checked"); %><% nvram_match_x("", "scutclient_debug", "0", "value=0"); %>>
-                                                    </div>
-                                                </div>
-                                                <div style="position: absolute; margin-left: -10000px;">
-                                                    <input type="radio" value="1" name="scutclient_debug" id="scutclient_debug_1" <% nvram_match_x("", "scutclient_debug", "1", "checked"); %>><#checkbox_Yes#>
-                                                    <input type="radio" value="0" name="scutclient_debug" id="scutclient_debug_0" <% nvram_match_x("", "scutclient_debug", "0", "checked"); %>><#checkbox_No#>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        
-                                        <tr> <th><#menu5_13_watchcat#></th>
-                                            <td>
-                                                <div class="main_itoggle">
-                                                    <div id="scutclient_watchcat_on_of">
-                                                        <input type="checkbox" id="scutclient_watchcat_fake" <% nvram_match_x("", "scutclient_watchcat", "1", "value=1 checked"); %><% nvram_match_x("", "scutclient_watchcat", "0", "value=0"); %>>
-                                                    </div>
-                                                </div>
-
-                                                <div style="position: absolute; margin-left: -10000px;">
-                                                    <input type="radio" value="1" name="scutclient_watchcat" id="scutclient_watchcat_1" <% nvram_match_x("", "scutclient_watchcat", "1", "checked"); %>><#checkbox_Yes#>
-                                                    <input type="radio" value="0" name="scutclient_watchcat" id="scutclient_watchcat_0" <% nvram_match_x("", "scutclient_watchcat", "0", "checked"); %>><#checkbox_No#>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr> <th><#menu5_13_udpHB#></th>
-                                            <td>
-                                                <div class="main_itoggle">
-                                                    <div id="scutclient_skip_udp_hb_on_of">
-                                                        <input type="checkbox" id="scutclient_skip_udp_hb_fake" <% nvram_match_x("", "scutclient_skip_udp_hb", "1", "value=1 checked"); %><% nvram_match_x("", "scutclient_skip_udp_hb", "0", "value=0"); %>>
-                                                    </div>
-                                                </div>
-
-                                                <div style="position: absolute; margin-left: -10000px;">
-                                                    <input type="radio" value="1" name="scutclient_skip_udp_hb" id="scutclient_skip_udp_hb_1" <% nvram_match_x("", "scutclient_skip_udp_hb", "1", "checked"); %>><#checkbox_Yes#>
-                                                    <input type="radio" value="0" name="scutclient_skip_udp_hb" id="scutclient_skip_udp_hb_0" <% nvram_match_x("", "scutclient_skip_udp_hb", "0", "checked"); %>><#checkbox_No#>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr> <th><#menu5_13_watchcat_force#></th>
-                                            <td>
-                                                <div class="main_itoggle">
-                                                    <div id="scutclient_wdg_force_on_of">
-                                                        <input type="checkbox" id="scutclient_wdg_force_fake" <% nvram_match_x("", "scutclient_wdg_force", "1", "value=1 checked"); %><% nvram_match_x("", "scutclient_wdg_force", "0", "value=0"); %>>
-                                                    </div>
-                                                </div>
-
-                                                <div style="position: absolute; margin-left: -10000px;">
-                                                    <input type="radio" value="1" name="scutclient_wdg_force" id="scutclient_wdg_force_1" <% nvram_match_x("", "scutclient_wdg_force", "1", "checked"); %>><#checkbox_Yes#>
-                                                    <input type="radio" value="0" name="scutclient_wdg_force" id="scutclient_wdg_force_0" <% nvram_match_x("", "scutclient_wdg_force", "0", "checked"); %>><#checkbox_No#>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td colspan="2">
-                                                <center><input class="btn btn-primary" style="width: 219px" type="button" value="<#CTL_apply#>" onclick="applyRule()" /></center>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </form>
-    <div id="footer"></div>
-</div>
-
-<form method="post" name="scutclient_action" action="">
-<input type="hidden" name="connect_action" value="">
-</form>
-
-
-</body>
 </html>
