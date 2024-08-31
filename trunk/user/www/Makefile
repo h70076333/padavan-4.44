@@ -186,6 +186,9 @@ ifneq ($(CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT),y)
 	rm -f $(INSTALLDIR)/www/scutclient_log.asp
 	rm -f $(INSTALLDIR)/www/scutclient_action.asp
 endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME),y)
+	rm -f $(INSTALLDIR)/www/Advanced_adguardhome.asp
+endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_MENTOHUST),y)
 	rm -f $(INSTALLDIR)/www/mentohust.asp
 	rm -f $(INSTALLDIR)/www/mentohust_log.asp
@@ -232,6 +235,10 @@ ifneq ($(CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_SERVER),y)
 endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CLIENT),y)
 	rm -f $(INSTALLDIR)/www/vpn_clients.asp
+	rm -f $(INSTALLDIR)/www/vpncli.asp
+endif
+clean:
+	@echo "Clean www romfs"
 	rm -f $(INSTALLDIR)/www/vpncli.asp
 endif
 clean:
